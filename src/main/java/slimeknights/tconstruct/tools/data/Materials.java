@@ -7,8 +7,10 @@ import net.minecraft.fluid.Fluids;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.materials.IMaterial;
 import slimeknights.tconstruct.library.materials.MaterialId;
+import slimeknights.tconstruct.library.modifiers.Modifier;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -61,14 +63,24 @@ final class Materials {
 //  public static final IMaterial slimevine_purple = mat(MaterialIds.slimevine_purple, true, "c873c8");
 
   /** Creates a material with a fluid */
-  private static IMaterial mat(MaterialId location, Supplier<? extends Fluid> fluid, boolean craftable, String materialColor) {
-    IMaterial material = new DataMaterial(location, fluid, craftable, materialColor);
+  private static IMaterial mat(MaterialId location, Supplier<? extends Fluid> fluid, boolean craftable, String materialColor, DataModifierEntry... traits) {
+    IMaterial material = new DataMaterial(location, fluid, craftable, materialColor, Arrays.asList(traits));
     allMaterials.add(material);
     return material;
   }
 
+  /** Creates a material with a fluid and a single trait */
+  private static IMaterial mat(MaterialId location, Supplier<? extends Fluid> fluid, boolean craftable, String materialColor, Supplier<Modifier> trait) {
+    return mat(location, fluid, craftable, materialColor, new DataModifierEntry(trait, 1));
+  }
+
   /** Creates a material with no fluid */
-  private static IMaterial mat(MaterialId location, boolean craftable, String materialColor) {
-    return mat(location, () -> Fluids.EMPTY, craftable, materialColor);
+  private static IMaterial mat(MaterialId location, boolean craftable, String materialColor, DataModifierEntry... traits) {
+    return mat(location, () -> Fluids.EMPTY, craftable, materialColor, traits);
+  }
+
+  /** Creates a material with no fluid and a single trait */
+  private static IMaterial mat(MaterialId location, boolean craftable, String materialColor, Supplier<Modifier> trait) {
+    return mat(location, craftable, materialColor, new DataModifierEntry(trait, 1));
   }
 }

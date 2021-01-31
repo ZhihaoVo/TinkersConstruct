@@ -4,6 +4,10 @@ import lombok.Getter;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+
+import java.util.Collections;
+import java.util.List;
 
 @Getter
 public class Material implements IMaterial {
@@ -28,20 +32,23 @@ public class Material implements IMaterial {
   /** Temperature for recipe calculations */
   private final int temperature;
 
+  private final List<ModifierEntry> traits;
+
   /**
    * Materials should only be created by the MaterialManager, except when used for data gen
    * They're synced over the network and other classes might lead to unexpected behaviour.
    */
-  public Material(ResourceLocation identifier, Fluid fluid, boolean craftable, String textColor, int temperature) {
+  public Material(ResourceLocation identifier, Fluid fluid, boolean craftable, String textColor, int temperature, List<ModifierEntry> traits) {
     this.identifier = new MaterialId(identifier);
     this.fluid = fluid;
     this.craftable = craftable;
     this.translationKey = Util.makeTranslationKey("material", identifier);
     this.textColor = textColor;
     this.temperature = temperature;
+    this.traits = traits;
   }
 
   protected Material(ResourceLocation identifier, Fluid fluid, boolean craftable) {
-    this(identifier, fluid, craftable, "ffffff", 0);
+    this(identifier, fluid, craftable, "ffffff", 0, Collections.emptyList());
   }
 }

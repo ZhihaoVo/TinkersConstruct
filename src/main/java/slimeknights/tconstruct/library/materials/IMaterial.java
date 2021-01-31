@@ -6,6 +6,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.Color;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+
+import java.util.List;
 
 public interface IMaterial {
   Color WHITE = Color.fromInt(0xFFFFFFFF);
@@ -51,6 +54,7 @@ public interface IMaterial {
 
   /**
    * Gets the text color for this material
+   * TODO: convert to an int?
    * @return the text color
    */
   String getTextColor();
@@ -77,4 +81,10 @@ public interface IMaterial {
    * @return  Temperature of the material, 0 if not relevant
    */
   int getTemperature();
+
+  /**
+   * Gets a list of traits from this tool
+   * @return  Tool traits
+   */
+  List<ModifierEntry> getTraits();
 }
