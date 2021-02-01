@@ -2,7 +2,5 @@
     "craftable": "blue",
     "fluid": "in:valid",
     "shardItem": "in:valid",
-    "traits": [
-        { "name": "in:valid" }
-    ]
+    "trait": { "name": "in:valid" }
 }

@@ -8,6 +8,7 @@ import slimeknights.tconstruct.library.materials.IMaterial;
 import slimeknights.tconstruct.library.materials.MaterialManager;
 import slimeknights.tconstruct.library.materials.json.MaterialJson;
 import slimeknights.tconstruct.library.materials.json.TraitJson;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 
 public class MaterialDataProvider extends GenericDataProvider {
 
@@ -21,18 +22,17 @@ public class MaterialDataProvider extends GenericDataProvider {
   }
 
   private MaterialJson convert(IMaterial material) {
-    TraitJson[] traits = null;
-    if (!material.getTraits().isEmpty()) {
-      traits = material.getTraits().stream()
-                       .map(entry -> new TraitJson(entry.getModifier().getId(), entry.getLevel()))
-                       .toArray(TraitJson[]::new);
+    TraitJson traitJson = null;
+    ModifierEntry trait = material.getTrait();
+    if (trait != null) {
+      traitJson = new TraitJson(trait.getModifier().getId(), trait.getLevel());
     }
 
     // if empty, no fluid, no temperature
     if (material.getFluid() == Fluids.EMPTY) {
-      return new MaterialJson(material.isCraftable(), null, material.getTextColor(), null, traits);
+      return new MaterialJson(material.isCraftable(), null, material.getTextColor(), null, traitJson);
     }
-    return new MaterialJson(material.isCraftable(), material.getFluid().getRegistryName(), material.getTextColor(), material.getTemperature(), traits);
+    return new MaterialJson(material.isCraftable(), material.getFluid().getRegistryName(), material.getTextColor(), material.getTemperature(), traitJson);
   }
 
   @Override

@@ -9,7 +9,7 @@ import slimeknights.tconstruct.library.materials.IMaterial;
 import slimeknights.tconstruct.library.materials.MaterialId;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 /**
@@ -24,8 +24,8 @@ public class DataMaterial implements IMaterial {
   private final boolean craftable;
   @Getter
   private final String textColor;
-  @Getter
-  private final List<ModifierEntry> traits;
+  @Getter @Nullable
+  private final ModifierEntry trait;
 
   @Override
   public Fluid getFluid() {

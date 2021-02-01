@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.library.network;
 
-import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.fluid.Fluid;
@@ -19,7 +18,6 @@ import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -40,12 +38,11 @@ public class UpdateMaterialsPacket implements IThreadsafePacket {
       }
       String textColor = buffer.readString();
       int temperature = buffer.readInt();
-      int size = buffer.readVarInt();
-      ImmutableList.Builder<ModifierEntry> builder = ImmutableList.builder();
-      for (int j = 0; j < size; j++) {
-        builder.add(new ModifierEntry(TinkerRegistries.MODIFIERS.getValue(buffer.readResourceLocation()), buffer.readVarInt()));
+      ModifierEntry trait = null;
+      if (buffer.readBoolean()) {
+        trait = new ModifierEntry(buffer.readRegistryIdUnsafe(TinkerRegistries.MODIFIERS), buffer.readVarInt());
       }
-      this.materials.add(new Material(id, fluid, craftable, textColor, temperature, builder.build()));
+      this.materials.add(new Material(id, fluid, craftable, textColor, temperature, trait));
     }
   }
 
@@ -58,11 +55,13 @@ public class UpdateMaterialsPacket implements IThreadsafePacket {
       buffer.writeResourceLocation(Objects.requireNonNull(material.getFluid().getRegistryName()));
       buffer.writeString(material.getTextColor());
       buffer.writeInt(material.getTemperature());
-      List<ModifierEntry> traits = material.getTraits();
-      buffer.writeVarInt(traits.size());
-      for (ModifierEntry entry : traits) {
-        buffer.writeResourceLocation(entry.getModifier().getId());
-        buffer.writeVarInt(entry.getLevel());
+      ModifierEntry trait = material.getTrait();
+      if (trait == null) {
+        buffer.writeBoolean(false);
+      } else {
+        buffer.writeBoolean(true);
+        buffer.writeRegistryIdUnsafe(TinkerRegistries.MODIFIERS, trait.getModifier());
+        buffer.writeVarInt(trait.getLevel());
       }
     });
   }
