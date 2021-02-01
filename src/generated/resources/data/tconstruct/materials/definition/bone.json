@@ -1,4 +1,8 @@
 {
   "craftable": true,
-  "textColor": "ede6bf"
+  "textColor": "ede6bf",
+  "trait": {
+    "name": "tconstruct:fractured",
+    "level": 1
+  }
 }

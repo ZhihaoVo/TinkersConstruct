@@ -2,5 +2,9 @@
   "craftable": false,
   "fluid": "tconstruct:molten_cobalt",
   "textColor": "2882d4",
-  "temperature": 950
+  "temperature": 950,
+  "trait": {
+    "name": "tconstruct:lightweight",
+    "level": 1
+  }
 }

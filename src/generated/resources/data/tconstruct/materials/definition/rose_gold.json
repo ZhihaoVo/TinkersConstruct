@@ -2,5 +2,9 @@
   "craftable": false,
   "fluid": "tconstruct:molten_rose_gold",
   "textColor": "ffdbcc",
-  "temperature": 550
+  "temperature": 550,
+  "trait": {
+    "name": "tconstruct:enhanced",
+    "level": 1
+  }
 }
