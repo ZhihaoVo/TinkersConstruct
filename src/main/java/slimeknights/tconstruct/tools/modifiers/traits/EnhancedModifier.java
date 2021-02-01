@@ -5,7 +5,7 @@ import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 
 public class EnhancedModifier extends Modifier {
   public EnhancedModifier() {
-    super(0xede6bf);
+    super(0xffdbcc);
   }
 
   @Override
